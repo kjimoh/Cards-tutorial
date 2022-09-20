@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const Card = ({ title, subtitle, alt }) => {
+const Card = ({ title, subtitle, alt, onClickCard }) => {
   return (
-    <CardContainer isBlackCard={alt}>
+    <CardContainer isBlackCard={alt} onClick={onClickCard}>
       <h1>{title}</h1>
       <p>{subtitle}</p>
     </CardContainer>

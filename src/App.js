@@ -1,17 +1,17 @@
+import { useState } from "react";
 import "./App.css";
 import Card from "./components/Card";
 
 function App() {
-  let myName = "ridwan";
-  const changeName = () => {
-    myName = "Sherif";
-    //name won't change
-    console.log(myName);
+  const [currentName, setName] = useState("Ridwan");
+  const changeName = (name) => {
+    setName(name);
   };
+  console.log(currentName);
 
   return (
     <div className="App">
-      <h1 onClick={changeName}>{myName}</h1>
+      <h1 onClick={changeName}>{currentName}</h1>
       {CARDS_DATA.map((card, idx) => {
         const { title, subtitle } = card;
         const checkIfItsOdd = idx % 2 === 0 ? true : false;
@@ -20,6 +20,8 @@ function App() {
             alt={checkIfItsOdd}
             title={title}
             subtitle={subtitle}
+            // title is passed into changeName function to set name to title
+            onClickCard={() => changeName(title)}
             key={idx}
           />
         );
@@ -29,6 +31,8 @@ function App() {
 }
 
 export default App;
+
+// changeName
 
 const CARDS_DATA = [
   {
