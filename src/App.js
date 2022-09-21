@@ -9,20 +9,22 @@ function App() {
     setName(name);
   };
 
-  const handleDeleteCard = () => {
+  const handleDeleteCard = (idNum) => {
     //copy array data
     const copiedData = [...data];
-    //remove last data
-    copiedData.pop();
+    //remove card by id
+    // Filter removes card.id that is equal to the indentification number passed in
+    const filteredData = copiedData.filter((item) => item.id !== idNum);
+    console.log({ filteredData });
     //set data to new array
-    setData(copiedData);
+    setData(filteredData);
   };
 
   return (
-    <div className="App" onClick={handleDeleteCard}>
-      <h1 onClick={changeName}>{currentName}</h1>
+    <div className="App">
+      <h1>{currentName}</h1>
       {data.map((card, idx) => {
-        const { title, subtitle } = card;
+        const { title, subtitle, id } = card;
         const checkIfItsOdd = idx % 2 === 0 ? true : false;
         return (
           <Card
@@ -30,7 +32,7 @@ function App() {
             title={title}
             subtitle={subtitle}
             // title is passed into changeName function to set name to title
-            onClickCard={() => changeName(title)}
+            onClickCard={() => handleDeleteCard(id)}
             key={idx}
           />
         );
