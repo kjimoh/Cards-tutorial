@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Card from "./components/Card";
 
@@ -18,7 +18,24 @@ function App() {
     console.log({ filteredData });
     //set data to new array
     setData(filteredData);
+    setName("Ridwan" + idNum);
   };
+
+  // Component did mount
+  // useEffect(() => {
+  //   alert("HELLLO TO MY BEAUTIFUL WEBSITE");
+  // },[]);
+
+  // Component did update
+  // useEffect(() => {
+  //   alert("HELLLO TO MY BEAUTIFUL WEBSITE");
+  // });
+
+  // Component did change based on a variable
+  useEffect(() => {
+    if (currentName === "Ridwan") return;
+    alert("CARD HAS CHANGED");
+  }, [currentName]);
 
   return (
     <div className="App">
