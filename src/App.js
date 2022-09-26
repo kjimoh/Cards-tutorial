@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Card from "./components/Card";
 
@@ -9,6 +9,7 @@ function App() {
   const [position, setPosition] = useState();
 
   const handleEditCard = (id) => {
+    // get card object
     const getCard = data.find((card) => card.id === id);
     // get position of the object in the array
     const position = data.findIndex((card) => card.id === id);
@@ -21,10 +22,10 @@ function App() {
   const handleSubmit = () => {
     // copy array
     const copiedArray = [...data];
-    // get Card Position in array
+    // get Card Position in array to set title and subtitle
     copiedArray[position].title = title;
     copiedArray[position].subtitle = subtitle;
-    // set new array
+    // set array to updated array
     setData(copiedArray);
     //clear input field
     setTitle("");
