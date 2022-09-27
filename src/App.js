@@ -2,15 +2,25 @@ import { useState } from "react";
 import "./App.css";
 import Card from "./components/Card";
 
-const uid = function () {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
-};
-
 function App() {
   const [data, setData] = useState(CARDS_DATA);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [position, setPosition] = useState();
+
+  const uid = function () {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  };
+
+  const handleDelete = (id) => {
+    const copiedArray = [...data];
+    const filteredArray = copiedArray.filter((item) => item.id !== id);
+    setData(filteredArray);
+
+    setTitle("");
+    setSubtitle("");
+    setPosition(null);
+  };
 
   const handleEditCard = (id) => {
     // get card object
@@ -82,6 +92,7 @@ function App() {
               title={title}
               subtitle={subtitle}
               onClickCard={() => handleEditCard(id)}
+              onDelete={() => handleDelete(id)}
               key={idx}
             />
           );
