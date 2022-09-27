@@ -38,13 +38,19 @@ function App() {
       setSubtitle("");
       setPosition(null);
     } else {
-      copiedArray.push({
+      // create new object
+      const newCard = {
         id: uid,
         title,
         subtitle,
-      });
+      };
+      // push new object to copied array
+      copiedArray.push(newCard);
+
+      // set data to new array
       setData(copiedArray);
 
+      // clear state
       setTitle("");
       setSubtitle("");
     }
