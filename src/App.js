@@ -2,6 +2,10 @@ import { useState } from "react";
 import "./App.css";
 import Card from "./components/Card";
 
+const uid = function () {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
 function App() {
   const [data, setData] = useState(CARDS_DATA);
   const [title, setTitle] = useState("");
@@ -22,15 +26,28 @@ function App() {
   const handleSubmit = () => {
     // copy array
     const copiedArray = [...data];
-    // get Card Position in array to set title and subtitle
-    copiedArray[position].title = title;
-    copiedArray[position].subtitle = subtitle;
-    // set array to updated array
-    setData(copiedArray);
-    //clear input field
-    setTitle("");
-    setSubtitle("");
-    setPosition(null);
+
+    if (typeof position === "number") {
+      // get Card Position in array to set title and subtitle
+      copiedArray[position].title = title;
+      copiedArray[position].subtitle = subtitle;
+      // set array to updated array
+      setData(copiedArray);
+      //clear input field
+      setTitle("");
+      setSubtitle("");
+      setPosition(null);
+    } else {
+      copiedArray.push({
+        id: uid,
+        title,
+        subtitle,
+      });
+      setData(copiedArray);
+
+      setTitle("");
+      setSubtitle("");
+    }
   };
 
   return (
@@ -46,21 +63,24 @@ function App() {
         value={subtitle}
       />
       <button onClick={handleSubmit}>
-        {title ? "Update Card" : "Create Card"}
+        {typeof position === "number" ? "Update Card" : "Create Card"}
       </button>
-      {data.map((card, idx) => {
-        const { title, subtitle, id } = card;
-        const checkIfItsOdd = idx % 2 === 0 ? true : false;
-        return (
-          <Card
-            alt={checkIfItsOdd}
-            title={title}
-            subtitle={subtitle}
-            onClickCard={() => handleEditCard(id)}
-            key={idx}
-          />
-        );
-      })}
+
+      <div style={{ display: "flex", gap: "20px", marginTop: "40px" }}>
+        {data.map((card, idx) => {
+          const { title, subtitle, id } = card;
+          const checkIfItsOdd = idx % 2 === 0 ? true : false;
+          return (
+            <Card
+              alt={checkIfItsOdd}
+              title={title}
+              subtitle={subtitle}
+              onClickCard={() => handleEditCard(id)}
+              key={idx}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
