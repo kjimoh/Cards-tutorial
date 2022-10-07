@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { CARDS_DATA } from "./CARD_DATA";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCard, deleteFirstCard, deleteLastCard, store } from ".";
 import Card from "./components/Card";
 
 function Home() {
-  const [data, setData] = useState(CARDS_DATA);
+  // const [data, setData] = useState(CARDS_DATA);
+  const data = useSelector((state) => state);
+
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [position, setPosition] = useState();
@@ -15,7 +18,7 @@ function Home() {
   const handleDelete = (id) => {
     const copiedArray = [...data];
     const filteredArray = copiedArray.filter((item) => item.id !== id);
-    setData(filteredArray);
+    // setData(filteredArray);
 
     setTitle("");
     setSubtitle("");
@@ -42,7 +45,7 @@ function Home() {
       copiedArray[position].title = title;
       copiedArray[position].subtitle = subtitle;
       // set array to updated array
-      setData(copiedArray);
+      // setData(copiedArray);
       //clear input field
       setTitle("");
       setSubtitle("");
@@ -58,7 +61,7 @@ function Home() {
       copiedArray.push(newCard);
 
       // set data to new array
-      setData(copiedArray);
+      // setData(copiedArray);
 
       // clear state
       setTitle("");
@@ -78,7 +81,7 @@ function Home() {
         onChange={(e) => setSubtitle(e.target.value)}
         value={subtitle}
       />
-      <button onClick={handleSubmit}>
+      <button onClick={() => store.dispatch(deleteLastCard())}>
         {typeof position === "number" ? "Update Card" : "Create Card"}
       </button>
 
@@ -92,7 +95,7 @@ function Home() {
               title={title}
               subtitle={subtitle}
               onClickCard={() => handleEditCard(id)}
-              onDelete={() => handleDelete(id)}
+              onDelete={() => store.dispatch(deleteCard(id))}
               key={idx}
               id={id}
             />
