@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCard, deleteFirstCard, deleteLastCard, store } from ".";
+import { deleteCard, createCard } from "./cardSlice";
 import Card from "./components/Card";
 
 function Home() {
   // const [data, setData] = useState(CARDS_DATA);
-  const data = useSelector((state) => state);
+  const data = useSelector((state) => state.cards);
+  const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -13,16 +14,6 @@ function Home() {
 
   const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
-  };
-
-  const handleDelete = (id) => {
-    const copiedArray = [...data];
-    const filteredArray = copiedArray.filter((item) => item.id !== id);
-    // setData(filteredArray);
-
-    setTitle("");
-    setSubtitle("");
-    setPosition(null);
   };
 
   const handleEditCard = (id) => {
@@ -81,7 +72,17 @@ function Home() {
         onChange={(e) => setSubtitle(e.target.value)}
         value={subtitle}
       />
-      <button onClick={() => store.dispatch(deleteLastCard())}>
+      <button
+        onClick={() =>
+          dispatch(
+            createCard({
+              title,
+              subtitle,
+              id: uid(),
+            })
+          )
+        }
+      >
         {typeof position === "number" ? "Update Card" : "Create Card"}
       </button>
 
@@ -95,7 +96,7 @@ function Home() {
               title={title}
               subtitle={subtitle}
               onClickCard={() => handleEditCard(id)}
-              onDelete={() => store.dispatch(deleteCard(id))}
+              onDelete={() => dispatch(deleteCard(id))}
               key={idx}
               id={id}
             />
